@@ -363,7 +363,7 @@ def sendmail_send(sender, recipient, message, config=None, section='DEFAULT'):
             stderr=_subprocess.STDOUT)
         stdout, _ = p.communicate(message_bytes)
         status = p.wait()
-        _LOG.debug(stdout.decode())
+        _LOG.error(stdout.decode())
         if status:
             raise _error.SendmailError(status=status)
     except Exception as e:
