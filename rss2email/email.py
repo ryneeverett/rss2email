@@ -357,12 +357,12 @@ def sendmail_send(sender, recipient, message, config=None, section='DEFAULT'):
         p = _subprocess.Popen(
             [sendmail, '-F', sender_name, '-f', sender_addr, recipient],
             stdin=_subprocess.PIPE, stdout=_subprocess.PIPE,
-            stderr=_subprocess.PIPE)
-        stdout,stderr = p.communicate(message_bytes)
+            stderr=_subprocess.STDOUT)
+        stdout, _ = p.communicate(message_bytes)
         status = p.wait()
+        _LOG.debug(stdout.decode())
         if status:
-            raise _error.SendmailError(
-                status=status, stdout=stdout, stderr=stderr)
+            raise _error.SendmailError(status=status)
     except Exception as e:
         raise _error.SendmailError() from e
 
